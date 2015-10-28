@@ -78,8 +78,8 @@ function is_yes(){
      return 0; #defaul answer: Yes
  fi
  case "$x" in
- y |Y |yes |Д |д |да ) return 0;;
- n |N |no |Н |н |нет ) return 1;;
+ y |Y |yes |ц╓ |ц└ |ц└ц│ ) return 0;;
+ n |N |no |ц╝ |ц▌ |ц▌ц┘ц■ ) return 1;;
 # * ) ; # asc again
  esac
     done
@@ -194,8 +194,12 @@ echo "--- create user ---"
 create_user "$USER_NAME" "$USER_PASSWORD"
 echo "--- create web site ---"
 `mkdir /web/$USER_NAME/htdocs`
+`mkdir /web/$USER_NAME/tmp`
 `mkdir /web/$USER_NAME/logs`  #in future save log for current user
 `chown $USER_NAME:$USER_NAME /web/$USER_NAME/htdocs`
+`chown $USER_NAME:$USER_NAME -R /web/$USER_NAME/tmp`
+`chmod 777 -R /web/$USER_NAME/tmp`
+
  
 virual_host_data="
 <virtualhost *:80>
@@ -222,11 +226,11 @@ virual_host_data="
         ErrorLog /web/${USER_NAME}/logs/${USER_NAME}.${HOST_NAME}.error.log
         LogLevel warn
         CustomLog /web/${USER_NAME}/logs/${USER_NAME}.${HOST_NAME}.access.log combined
-		# open_basedirдля домашней директории пользователя, можно добавить несколько директорий при необходимости, директории разделяются двоеточием .:.
+		# open_basedirц└ц▄ц▒ ц└ц▐ц█ц│ц⌡ц▌ц┘ц┼ ц└ц┴ц▓ц┘ц▀ц■ц▐ц▓ц┴ц┴ ц░ц▐ц▄ц≤ц ц▐ц≈ц│ц■ц┘ц▄ц▒, ц█ц▐ц√ц▌ц▐ ц└ц▐ц┌ц│ц≈ц┴ц■ц≤ ц▌ц┘ц⌠ц▀ц▐ц▄ц≤ц▀ц▐ ц└ц┴ц▓ц┘ц▀ц■ц▐ц▓ц┴ц┼ ц░ц▓ц┴ ц▌ц┘ц▐ц┌ц┬ц▐ц└ц┴ц█ц▐ц⌠ц■ц┴, ц└ц┴ц▓ц┘ц▀ц■ц▐ц▓ц┴ц┴ ц▓ц│ц ц└ц┘ц▄ц▒ц─ц■ц⌠ц▒ ц└ц≈ц▐ц┘ц■ц▐ц·ц┴ц┘ц█ .:.
 		php_admin_value open_basedir "/web/${USER_NAME}/"
-		# Включаем сейф-мод, я сделал это в каждом конфиге сайта для удобства отключения при необходимости.
+		# ц╥ц▀ц▄ц─ц·ц│ц┘ц█ ц⌠ц┘ц┼ц├-ц█ц▐ц└, ц▒ ц⌠ц└ц┘ц▄ц│ц▄ ц°ц■ц▐ ц≈ ц▀ц│ц√ц└ц▐ц█ ц▀ц▐ц▌ц├ц┴ц┤ц┘ ц⌠ц│ц┼ц■ц│ ц└ц▄ц▒ ц∙ц└ц▐ц┌ц⌠ц■ц≈ц│ ц▐ц■ц▀ц▄ц─ц·ц┘ц▌ц┴ц▒ ц░ц▓ц┴ ц▌ц┘ц▐ц┌ц┬ц▐ц└ц┴ц█ц▐ц⌠ц■ц┴.
 		php_admin_value safe_mode "on"
-		# Определяем нашу временную директорию как основную, вместо /tmp и устанавливаем её директорией для хранения сессий.
+		# ц╞ц░ц▓ц┘ц└ц┘ц▄ц▒ц┘ц█ ц▌ц│ц⌡ц∙ ц≈ц▓ц┘ц█ц┘ц▌ц▌ц∙ц─ ц└ц┴ц▓ц┘ц▀ц■ц▐ц▓ц┴ц─ ц▀ц│ц▀ ц▐ц⌠ц▌ц▐ц≈ц▌ц∙ц─, ц≈ц█ц┘ц⌠ц■ц▐ /tmp ц┴ ц∙ц⌠ц■ц│ц▌ц│ц≈ц▄ц┴ц≈ц│ц┘ц█ ц┘бё ц└ц┴ц▓ц┘ц▀ц■ц▐ц▓ц┴ц┘ц┼ ц└ц▄ц▒ ц┬ц▓ц│ц▌ц┘ц▌ц┴ц▒ ц⌠ц┘ц⌠ц⌠ц┴ц┼.
 		php_admin_value upload_tmp_dir "/web/${USER_NAME}/tmp"
 		php_admin_value session.save_path "/web/${USER_NAME}/tmp"	
 </VirtualHost>
