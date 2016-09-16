@@ -4,6 +4,7 @@
 IP_ADDRESS="ip"
 HOST_NAME="hostname"
 MYSQL_PASS="mysqlpass"
+YAPDDTOK="yandex_pdd_token"
  
 ############################################################################################
  
@@ -235,6 +236,7 @@ virual_host_data="
 		php_admin_value session.save_path "/web/${USER_NAME}/tmp"	
 </VirtualHost>
 "
+/usr/bin/curl -H 'PddToken: '${YAPDDTOK} -d 'domain='${HOST_NAME}'&type=A&subdomain='${USER_NAME}'&ttl=14400&content='${IP_ADDRESS} 'https://pddimp.yandex.ru/api2/admin/dns/add'
 touch ${APACHE2_DIR}/sites-available/${USER_NAME}
 echo "$virual_host_data" >> ${APACHE2_DIR}/sites-available/${USER_NAME}
 #add link
